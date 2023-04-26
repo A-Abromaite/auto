@@ -5,13 +5,24 @@ from .models import (VehicleModel,
                      Order,
                      OrderLine)
 
+class OrderLineInLine(admin.TabularInline):
+    model = OrderLine
+    extra = 0
+
+class VehicleAdmin(admin.ModelAdmin):
+    list_display = ["owner_name", "vehicle_model", "plate", "vin"]
+
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = ["name", "price"]
+
 class OrderAdmin(admin.ModelAdmin):
     list_display = ["vehicle", "date"]
+    inlines = [OrderLineInLine]
 
 # Register your models here.
 admin.site.register(VehicleModel)
-admin.site.register(Service)
-admin.site.register(Vehicle)
+admin.site.register(Service, ServiceAdmin)
+admin.site.register(Vehicle, VehicleAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderLine)
 
