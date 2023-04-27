@@ -30,7 +30,7 @@ class Vehicle(models.Model):
     vehicle_model = models.ForeignKey(to="VehicleModel", verbose_name="Automobilio Modelis", on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f"{self.vehicle_model} ({self.plate}"
+        return f"{self.vehicle_model} ({self.plate})"
 
     class Meta:
         verbose_name = "Automobilis"
@@ -38,6 +38,14 @@ class Vehicle(models.Model):
 class Order(models.Model):
     date = models.DateTimeField(verbose_name="Data", auto_now_add=True)
     vehicle = models.ForeignKey(to="Vehicle", verbose_name="Automobilis", on_delete=models.SET_NULL, null=True)
+
+    SERVICE_STATUS = (
+        ("p", "patvirtinta"),
+        ("v", "vykdoma"),
+        ("i", "įvykdyta"),
+        ("a", "atšaukta"),
+    )
+    status = models.CharField(verbose_name="Būsena", max_length=1, choices=SERVICE_STATUS, blank=True, default="p")
 
     def __str__(self):
         return f"{self.vehicle} ({self.date}) "

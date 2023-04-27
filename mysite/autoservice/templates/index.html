@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{%block "title" %}Home{% endblock%}
+
+{% block "content"%}
+
+<h1>Pačios kokybiškausios paslaugos tik mūsų autoservise!</h1>
+<p>Šiuo metu pas mus:</p>
+<ul>
+    <li><strong>Teikiama paslaugų: </strong>{{ num_services }}</li>
+    <li><strong>Aptarnaujama automobilių: </strong>{{ num_vehicles }}</li>
+<!--    <li><strong>Atlikta paslaugų: </strong>{{ num_services_completed }}</li>-->
+</ul>
+
+{%endblock%}
