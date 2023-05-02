@@ -17,3 +17,9 @@ def index(request):
 
 
     return render(request, "index.html", context=context)
+
+def vehicles(request):
+    context = {
+        "vehicles": Vehicle.objects.all()
+    }
+    return render(request, "vehicles.html", context=context)
