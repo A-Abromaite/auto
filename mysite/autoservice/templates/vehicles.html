@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
-{%block "title" %}Home{% endblock%}
+{%block "title" %}Automobiliai{% endblock%}
 
 {% block "content"%}
 
 <h1>Automobiliai</h1>
 <br>
 {% for vehicle in vehicles %}
-<p>{{ vehicle }}</p>
+<a href="{% url 'vehicle' vehicle.pk %}">
+    <p>{{ vehicle }}</p>
+</a>
 <hr>
 {% endfor %}
 
