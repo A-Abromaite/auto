@@ -22,10 +22,16 @@
         <td>{{ line.service }}</td>
         <td>{{ line.service.price }}</td>
         <td>{{ line.quantity }}</td>
+        <td>{{ line.sum }}</td>
+    </tr>
+{% endfor %}
+    <tr>
         <td></td>
+        <td></td>
+        <td></td>
+        <td><strong>{{ order.total }}</strong></td>
     </tr>
 
-{% endfor %}
 </table>
 
 {%endblock%}
