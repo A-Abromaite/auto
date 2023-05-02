@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Service, VehicleModel, Vehicle, Order, OrderLine
+from .models import Service, Vehicle, Order
+from django.views import generic
 
 # Create your views here.
 def index(request):
@@ -29,3 +30,13 @@ def vehicle(request, vehicle_id):
         "vehicle": get_object_or_404(Vehicle, pk=vehicle_id)
     }
     return render(request, "vehicle.html", context=context)
+
+class OrderListView(generic.ListView):
+    model = Order
+    template_name = "orders.html"
+    context_object_name = "orders"
+
+class OrderDetailView(generic.DetailView):
+    model = Order
+    template_name = "order.html"
+    context_object_name = "order"

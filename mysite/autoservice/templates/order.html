@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{%block "title" %}Užsakymas{% endblock%}
+
+{% block "content"%}
+
+<h1>Užsakymas</h1>
+<br>
+<p><strong>Data: </strong>{{ order.date }}</p>
+<p><strong>Automobilis: </strong>{{ order.vehicle }}</p>
+<p><strong>Būsena: </strong>{{ order.get_satus_display }}</p>
+<hr>
+<table class="table table-striped">
+    <tr>
+        <th>Paslauga</th>
+        <th>Kaina</th>
+        <th>Kiekis</th>
+        <th>Suma</th>
+    </tr>
+{% for line in order.lines.all %}
+    <tr>
+        <td>{{ line.service }}</td>
+        <td>{{ line.service.price }}</td>
+        <td>{{ line.quantity }}</td>
+        <td></td>
+    </tr>
+
+{% endfor %}
+</table>
+
+{%endblock%}
