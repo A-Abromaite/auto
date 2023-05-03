@@ -3,8 +3,20 @@ from django.http import HttpResponse
 from .models import Service, Vehicle, Order
 from django.views import generic
 from django.core.paginator import Paginator
+from django.db.models import Q
 
-# Create your views here.
+def search(request):
+    """
+    paprasta paieška. query ima informaciją iš paieškos laukelio,
+    search_results prafiltruoja pagal įvestą tekstą knygų pavadinimus ir aprašymus.
+    Icontains nuo contains skiriasi tuo, kad icontains ignoruoja ar raidės
+    didžiosios/mažosios.
+    """
+    query = request.GET.get('query')
+    search_results = Vehicle.objects.filter(Q(plate__icontains=query) | Q(vin__icontains=query) | Q(owner_name__icontains=query) | Q(vehicle_model__make__icontains=query) | Q(vehicle_model__model__icontains=query))
+    return render(request, 'search.html', {'vehicles': search_results, 'query': query})
+
+
 def index(request):
 
     num_services = Service.objects.all().count()
