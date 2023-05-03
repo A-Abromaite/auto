@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{%block "title" %}Automobiliai{% endblock%}
+{% block "title" %}Automobiliai{% endblock %}
 
-{% block "content"%}
+{% block "content" %}
 
 <h1>Automobiliai</h1>
 <br>
@@ -13,5 +13,24 @@
 <hr>
 {% endfor %}
 
+<div class="container puslapiai">
+    <nav aria-label="...">
+        {% if vehicles.has_other_pages %}
+            <ul class="pagination pagination-sm justify-content-center">
+                {% for i in vehicles.paginator.page_range %}
+                    {% if vehicles.number == i %}
+                        <li class="page-item active">
+                            <a class="page-link">{{ i }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </nav>
+</div>
 
-{%endblock%}
+{% endblock %}
