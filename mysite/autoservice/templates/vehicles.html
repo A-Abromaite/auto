@@ -12,7 +12,7 @@
     <div class="col-md-4 d-flex align-items-stretch">
         <div class="card mb-4 shadow-sm">
             {% if vehicle.photo %}
-            <img src="{{ book.cover.url }}" class="card-img-top" alt="...">
+            <img src="{{ vehicle.photo.url }}" class="card-img-top" alt="...">
             {% else %}
             <img src="{% static 'img/no-image.png' %}" class="card-img-top">
             {% endif %}
