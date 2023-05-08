@@ -41,7 +41,7 @@ class Order(models.Model):
     date = models.DateTimeField(verbose_name="Data", auto_now_add=True)
     vehicle = models.ForeignKey(to="Vehicle", verbose_name="Automobilis", on_delete=models.SET_NULL, null=True)
     client = models.ForeignKey(to=User, verbose_name="Klientas", on_delete=models.SET_NULL, null=True, blank=True)
-
+    deadline = models.DateTimeField(verbose_name="Terminas", null=True, blank=True)
     def total(self):
         total_sum = 0
         for line in self.lines.all():
