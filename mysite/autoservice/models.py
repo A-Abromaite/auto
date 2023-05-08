@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class VehicleModel(models.Model):
@@ -28,7 +29,7 @@ class Vehicle(models.Model):
     vin = models.CharField(verbose_name="VIN kodas", max_length=17)
     owner_name = models.CharField(verbose_name="Savininkas", max_length=50)
     vehicle_model = models.ForeignKey(to="VehicleModel", verbose_name="Automobilio Modelis", on_delete=models.SET_NULL, null=True)
-    photo = models.ImageField(verbose_name="Nuotrauka", upload_to="vehicles", null=True)
+    photo = models.ImageField(verbose_name="Nuotrauka", upload_to="vehicles", null=True, blank=True)
 
     def __str__(self):
         return f"{self.vehicle_model} ({self.plate})"
@@ -39,6 +40,7 @@ class Vehicle(models.Model):
 class Order(models.Model):
     date = models.DateTimeField(verbose_name="Data", auto_now_add=True)
     vehicle = models.ForeignKey(to="Vehicle", verbose_name="Automobilis", on_delete=models.SET_NULL, null=True)
+    client = models.ForeignKey(to=User, verbose_name="Klientas", on_delete=models.SET_NULL, null=True, blank=True)
 
     def total(self):
         total_sum = 0
