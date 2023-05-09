@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import HttpResponse
 from .models import Service, Vehicle, Order
 from django.views import generic
@@ -7,6 +7,9 @@ from django.db.models import Q
 from django.contrib.auth.forms import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
+from django.views.generic.edit import FormMixin
+from .forms import OrderCommentForm
+
 
 def search(request):
     """
@@ -58,10 +61,29 @@ class OrderListView(generic.ListView):
     context_object_name = "orders"
     paginate_by = 2
 
-class OrderDetailView(generic.DetailView):
+class OrderDetailView(FormMixin, generic.DetailView):
     model = Order
     template_name = "order.html"
     context_object_name = "order"
+    form_class = OrderCommentForm
+
+    def get_success_url(self):
+        return reverse('order', kwargs={'pk': self.object.id})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.instance.order = self.object
+        form.instance.user = self.request.user
+        form.save()
+        return super().form_valid(form)
+
 
 class MyOrderListView(generic.ListView):
     model = Order

@@ -19,14 +19,14 @@
         <th>Kiekis</th>
         <th>Suma</th>
     </tr>
-{% for line in order.lines.all %}
+    {% for line in order.lines.all %}
     <tr>
         <td>{{ line.service }}</td>
         <td>{{ line.service.price }}</td>
         <td>{{ line.quantity }}</td>
         <td>{{ line.sum }}</td>
     </tr>
-{% endfor %}
+    {% endfor %}
     <tr>
         <td></td>
         <td></td>
@@ -35,5 +35,27 @@
     </tr>
 
 </table>
-
+<h2>Atsiliepimai</h2>
+{% if user.is_authenticated %}
+<div class="fieldWrapper">
+    <hr>
+    <br/>
+    <h4>Palikite atsiliepimą:</h4>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.content }}</br>
+        <input type="submit" value="Paskelbti">
+    </form>
+</div>
+{% endif %}
+{% if order.comments.all %}
+{% for comment in order.comments.all %}
+<hr>
+<strong>{{ comment.user }}</strong>,
+<en>{{ comment.date_created }}</en>
+<p>{{ comment.content }}</p>
+{% endfor %}
+{% else %}
+<p>Komentarų nėra</p>
+{% endif %}
 {%endblock%}
