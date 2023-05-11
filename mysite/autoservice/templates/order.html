@@ -8,8 +8,13 @@
 <br>
 <p><strong>Data: </strong>{{ order.date }}</p>
 <p><strong>Automobilis: </strong>{{ order.vehicle }}</p>
-<p><strong>Būsena: </strong>{{ order.get_satus_display }}</p>
+<p><strong>Būsena: </strong>{{ order.get_status_display }}</p>
 <p><strong>Klientas: </strong>{{ order.client }}</p>
+{% if order.client == user %}
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'order_update' order.id %}">Redaguoti</a>
+</div>
+{% endif %}
 
 <hr>
 <table class="table table-striped">
