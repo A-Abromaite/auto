@@ -8,7 +8,7 @@ from django.contrib.auth.forms import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.views.generic.edit import FormMixin
-from .forms import OrderCommentForm, UserUpdateForm, ProfileUpdateForm
+from .forms import OrderCommentForm, UserUpdateForm, ProfileUpdateForm, OrderForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
@@ -148,9 +148,10 @@ class OrderDetailView(FormMixin, generic.DetailView):
 
 class OrderCreateView(LoginRequiredMixin, generic.CreateView):
     model = Order
-    fields = ['vehicle', 'deadline', 'status']
+    # fields = ['vehicle', 'deadline', 'status']
     success_url = '/autoservice/orders/'
     template_name = 'order_form.html'
+    form_class = OrderForm
 
     def form_valid(self, form):
         form.instance.client = self.request.user
@@ -158,10 +159,10 @@ class OrderCreateView(LoginRequiredMixin, generic.CreateView):
 
 class OrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Order
-    fields = ['vehicle', 'deadline', 'status']
+    # fields = ['vehicle', 'deadline', 'status']
     # success_url = '/autoservice/orders/'
     template_name = 'order_form.html'
-
+    form_class = OrderForm
     def get_success_url(self):
         return reverse('order', kwargs={'pk': self.object.id})
 
@@ -172,3 +173,11 @@ class OrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateVie
     def test_func(self):
         return self.get_object().client == self.request.user
 
+class OrderDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = Order
+    context_object_name = "order"
+    template_name = "order_delete.html"
+    pysuccess_url = '/autoservice/orders/'
+
+    def test_func(self):
+        return self.get_object().client == self.request.user
