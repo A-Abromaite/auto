@@ -41,6 +41,12 @@
     </tr>
 
 </table>
+{% if order.client == user %}
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'newline' order.id %}">Pridėti eilutę</a>
+</div>
+{% endif %}
+<br>
 <h2>Atsiliepimai</h2>
 {% if user.is_authenticated %}
 <div class="fieldWrapper">
