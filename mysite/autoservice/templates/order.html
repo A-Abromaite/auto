@@ -36,8 +36,8 @@
         <td>{{ line.sum }}</td>
         {% if order.client == user %}
         <td>
-                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'updateline' order.id line.id %}">Redaguoti</a>
-
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'updateline' order.id line.id %}">Redaguoti</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'deleteline' order.id line.id %}">Ištrinti</a>
 
         </td>
         {% endif %}

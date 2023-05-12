@@ -217,3 +217,15 @@ class OrderLineUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.Updat
     def form_valid(self, form):
         form.instance.order = Order.objects.get(pk=self.kwargs['order_id'])
         return super().form_valid(form)
+
+class OrderLineDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = OrderLine
+    context_object_name = 'orderline'
+    template_name = 'orderline_delete.html'
+
+    def test_func(self):
+        order = Order.objects.get(pk=self.kwargs['order_id'])
+        return order.client == self.request.user
+
+    def get_success_url(self):
+        return reverse('order', kwargs={'pk': self.kwargs['order_id']})
