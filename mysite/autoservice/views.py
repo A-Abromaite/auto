@@ -201,3 +201,19 @@ class OrderLineCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Creat
     def form_valid(self, form):
         form.instance.order = Order.objects.get(pk=self.kwargs['pk'])
         return super().form_valid(form)
+
+class OrderLineUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = OrderLine
+    fields = ['service', 'quantity']
+    template_name = 'orderline_form.html'
+
+    def test_func(self):
+        order = Order.objects.get(pk=self.kwargs['order_id'])
+        return order.client == self.request.user
+
+    def get_success_url(self):
+        return reverse('order', kwargs={'pk': self.kwargs['order_id']})
+
+    def form_valid(self, form):
+        form.instance.order = Order.objects.get(pk=self.kwargs['order_id'])
+        return super().form_valid(form)
